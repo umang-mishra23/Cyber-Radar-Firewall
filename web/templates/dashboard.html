@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CyberShield - Firewall Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            height: 100vh;
+            background-color: #343a40;
+            color: white;
+            padding-top: 1rem;
+        }
+        .sidebar a {
+            color: white;
+            display: block;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+        .stats-card {
+            border-radius: 1rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-2 sidebar">
+            <h4 class="text-center">🛡️ CyberShield</h4>
+            <a href="#overview">Dashboard</a>
+            <a href="#rules">Firewall Rules</a>
+            <a href="#logs">Logs</a>
+            <a href="#settings">Settings</a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-10 p-4">
+
+            <h2 id="overview">📊 System Overview</h2>
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="p-3 bg-primary text-white stats-card">
+                        <h5>Total Rules</h5>
+                        <h2>{{ stats.total_rules }}</h2>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 bg-success text-white stats-card">
+                        <h5>Blocked Packets</h5>
+                        <h2>{{ stats.blocked_packets }}</h2>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 bg-warning text-dark stats-card">
+                        <h5>Allowed Packets</h5>
+                        <h2>{{ stats.allowed_packets }}</h2>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 bg-danger text-white stats-card">
+                        <h5>Alerts</h5>
+                        <h2>{{ stats.alerts }}</h2>
+                    </div>
+                </div>
+            </div>
+
+            <h3 id="rules">🔧 Firewall Rules</h3>
+            <form method="POST" action="/add_rule" class="mb-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="text" name="description" class="form-control" placeholder="Rule Description (e.g., Block Port 22)" required>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="action" class="form-select" required>
+                            <option value="Allow">Allow</option>
+                            <option value="Deny">Deny</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary">Add Rule</button>
+                    </div>
+                </div>
+            </form>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Rule ID</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rule in rules %}
+                    <tr>
+                        <td>{{ rule.id }}</td>
+                        <td>{{ rule.description }}</td>
+                        <td>{{ rule.action }}</td>
+                        <td><span class="badge bg-success">{{ rule.status }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h3 id="logs">📝 Logs</h3>
+            <div class="bg-light p-3 mb-4" style="height: 200px; overflow-y: scroll;">
+                {% for log in logs %}
+                    <p>{{ log }}</p>
+                {% endfor %}
+            </div>
+
+            <h3 id="settings">⚙️ Settings</h3>
+            <a href="/reset_firewall" class="btn btn-outline-danger">Reset Firewall</a>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

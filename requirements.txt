@@ -1,0 +1,7 @@
+netfilterqueue
+scapy
+flask
+requests
+sqlalchemy
+python-dotenv
+werkzeug

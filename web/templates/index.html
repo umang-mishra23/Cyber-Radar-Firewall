@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cyber Radar - Firewall Rules</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>🔥 Cyber Radar Firewall Rules</h1>
+
+    <form method="POST" action="/add">
+        <input type="text" name="ip" placeholder="Enter IP address" required>
+        <select name="action">
+            <option value="block">Block</option>
+            <option value="allow">Allow</option>
+        </select>
+        <button type="submit">Add Rule</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Action</th>
+                <th>IP Address</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rule in rules %}
+            <tr>
+                <td>{{ rule[0] }}</td>
+                <td>{{ rule[1].upper() }}</td>
+                <td>{{ rule[2] }}</td>
+                <td><a href="/delete/{{ rule[0] }}">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
