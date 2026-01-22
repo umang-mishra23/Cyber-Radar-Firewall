@@ -51,7 +51,6 @@ iptables (Linux-based packet filtering) (if applicable)
 
 ✔ Simulating rule-based traffic filtering
 
-✔ Resume/portfolio enhancement for security roles
 
 
 
